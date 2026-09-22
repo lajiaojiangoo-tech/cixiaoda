@@ -20,11 +20,6 @@
   border-color: var(--primary);
   box-shadow: 0 0 0 4rpx rgba(74, 144, 226, 0.12);
 }
-.search-icon {
-  font-size: 28rpx;
-  margin-right: 12rpx;
-  flex-shrink: 0;
-}
 .search-icon-css {
   width: 28rpx;
   height: 28rpx;

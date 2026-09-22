@@ -1,4 +1,4 @@
-<navbar title="词小达" showBack="{{false}}"></navbar>
+<navbar showBack="{{false}}"></navbar>
 
 <!-- 加载中（转圈圈） -->
 <view class="loading-state" wx:if="{{loading}}">

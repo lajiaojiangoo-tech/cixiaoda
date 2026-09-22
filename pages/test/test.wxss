@@ -11,10 +11,7 @@
   color: var(--primary);
   font-weight: 600;
 }
-.progress-type {
-  font-size: var(--font-size-small);
-  color: var(--text-secondary);
-}
+
 
 /* ===== 题目区域 ===== */
 .question-area {
@@ -31,11 +28,6 @@
   color: var(--text-primary);
   text-align: center;
   margin-bottom: 12rpx;
-}
-
-.question-prompt-spelling {
-  font-size: 36rpx;
-  margin-bottom: 40rpx;
 }
 
 .question-phonetic {
@@ -121,100 +113,6 @@
   font-weight: 600;
 }
 
-/* ===== 拼写题 ===== */
-.spelling-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 32rpx;
-}
-
-.spelling-input {
-  width: 100%;
-  height: 100rpx;
-  background: var(--card-bg);
-  border-radius: var(--radius-input);
-  padding: 0 30rpx;
-  font-size: var(--font-size-body);
-  color: var(--text-primary);
-  border: 2rpx solid var(--gray-200);
-  box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.spelling-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4rpx rgba(74, 144, 226, 0.12);
-}
-
-.spelling-input.input-correct {
-  border-color: var(--accent-green);
-  background: var(--accent-green-subtle);
-}
-
-.spelling-input.input-wrong {
-  border-color: var(--accent-red);
-  background: var(--accent-red-subtle);
-  animation: shake 0.4s ease;
-}
-
-.submit-btn {
-  width: 100%;
-  height: 88rpx;
-  line-height: 88rpx;
-  text-align: center;
-  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
-  color: #fff;
-  font-size: var(--font-size-body);
-  font-weight: 600;
-  border-radius: var(--radius-button);
-  border: none;
-  box-shadow: 0 4rpx 16rpx rgba(74, 144, 226, 0.3);
-}
-.submit-btn::after {
-  border: none;
-}
-.submit-btn[disabled] {
-  background: var(--gray-200);
-  color: var(--text-placeholder);
-  box-shadow: none;
-}
-
-.spelling-feedback {
-  margin-top: 32rpx;
-  width: 100%;
-}
-
-.feedback-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  padding: 20rpx;
-  border-radius: var(--radius-input);
-}
-
-.feedback-correct {
-  background: var(--accent-green-subtle);
-}
-.feedback-correct .feedback-text {
-  font-size: var(--font-size-body);
-  color: #1B7A34;
-  font-weight: 600;
-}
-
-.feedback-wrong {
-  background: var(--accent-red-subtle);
-}
-.feedback-wrong .feedback-text {
-  color: #B71C1C;
-}
-.feedback-answer {
-  font-size: var(--font-size-body);
-  color: var(--primary);
-  font-weight: 700;
-}
-
 /* ===== 结果页 ===== */
 .result-page {
   padding-top: 40rpx;
@@ -244,7 +142,7 @@
   border-radius: 50%;
   background: var(--card-bg);
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   padding: 0 10rpx;
   box-sizing: border-box;

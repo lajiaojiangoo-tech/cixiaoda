@@ -14,7 +14,6 @@
   <view class="progress-section">
     <view class="progress-header">
       <text class="progress-index">{{currentIndex + 1}} / {{totalCount}}</text>
-      <text class="progress-type">{{currentQuestion.type === 'choice' ? '选择题' : '拼写题'}}</text>
     </view>
     <view class="progress-track">
       <view class="progress-fill" style="width: {{totalCount > 0 ? (currentIndex / totalCount) * 100 : 0}}%;"></view>
@@ -22,7 +21,7 @@
   </view>
 
   <!-- 选择题 -->
-  <view class="question-area" wx:if="{{currentQuestion.type === 'choice'}}">
+  <view class="question-area">
     <text class="question-prompt">{{currentQuestion.word}}</text>
     <text class="question-phonetic" wx:if="{{currentQuestion.phonetic}}">{{currentQuestion.phonetic}}</text>
 
@@ -44,34 +43,6 @@
     <view class="correct-answer-bar" wx:if="{{feedbackType === 'wrong' && correctAnswerText}}">
       <text class="correct-answer-label">正确答案：</text>
       <text class="correct-answer-text">{{correctAnswerText}}</text>
-    </view>
-  </view>
-
-  <!-- 拼写题 -->
-  <view class="question-area" wx:else>
-    <text class="question-prompt question-prompt-spelling">{{currentQuestion.meaning}}</text>
-
-    <form class="spelling-form" bindsubmit="onSubmitSpelling">
-      <input
-        class="spelling-input {{answered ? (spellingResult ? 'input-correct' : 'input-wrong') : ''}}"
-        name="spelling"
-        placeholder="输入英文单词"
-        value="{{spellingValue}}"
-        bindinput="onSpellingInput"
-        disabled="{{answered}}"
-        focus="{{!answered}}"
-      />
-      <button class="submit-btn" form-type="submit" disabled="{{answered || !spellingValue}}">提交</button>
-    </form>
-
-    <view class="spelling-feedback" wx:if="{{answered}}">
-      <view class="feedback-row feedback-correct" wx:if="{{spellingResult}}">
-        <text class="feedback-text">回答正确！</text>
-      </view>
-      <view class="feedback-row feedback-wrong" wx:else>
-        <text class="feedback-text">正确答案：</text>
-        <text class="feedback-answer">{{correctAnswerText}}</text>
-      </view>
     </view>
   </view>
 </view>

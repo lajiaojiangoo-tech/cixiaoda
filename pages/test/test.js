@@ -23,8 +23,6 @@ Page({
 
     answered: false,
     selectedOption: -1,
-    spellingValue: '',
-    spellingResult: null,
     feedbackType: '',
     correctAnswerText: '',
 
@@ -33,8 +31,7 @@ Page({
     resultDetails: [],
     wrongWordIds: [],
 
-    bookId: '',
-    startTime: 0
+    bookId: ''
   },
 
   onLoad(options) {
@@ -69,7 +66,22 @@ Page({
       }
 
       const words = await cloudApi.getWordsByIds(ids);
-      this.initTest(words || []);
+
+      // 单词太少时从同词书取额外词作干扰项
+      let extraWords = [];
+      if (words.length < 4 && this.bookId) {
+        try {
+          const data = await cloudApi.getTodayStudyWords(this.bookId);
+          const allExtra = [...(data.newWords || []), ...(data.reviewWords || [])];
+          extraWords = allExtra.filter(
+            w => !ids.includes(w._id) && !ids.includes(w.wordId)
+          );
+        } catch (e) {
+          console.warn('[test] 加载额外干扰词失败:', e);
+        }
+      }
+
+      this.initTest(words || [], extraWords);
     } catch (err) {
       console.error('[test] loadWordsByIds 失败:', err);
       util.showToast('加载单词失败');
@@ -96,69 +108,55 @@ Page({
   },
 
   /** 初始化测试：生成题目 */
-  initTest(words) {
+  initTest(words, extraWords = []) {
     if (words.length === 0) {
       util.showToast('没有可测试的单词');
       setTimeout(() => wx.navigateBack(), 1500);
       return;
     }
 
-    const questions = this.generateQuestions(words);
+    const questions = this.generateQuestions(words, extraWords);
 
     this.setData({
       loading: false,
       questions,
       totalCount: questions.length,
       currentIndex: 0,
-      currentQuestion: questions[0] || null,
-      startTime: Date.now()
+      currentQuestion: questions[0] || null
     });
   },
 
-  /** 生成题目：7:3 混合选择题和拼写题 */
-  generateQuestions(words) {
+  /** 生成题目：全部为选择题 */
+  generateQuestions(words, extraWords = []) {
     const shuffled = shuffle(words);
-    const total = shuffled.length;
-    const choiceCount = Math.max(1, Math.round(total * 0.7));
+    const distractorPool = shuffle([...shuffled, ...extraWords]);
     const questions = [];
 
-    shuffled.forEach((word, index) => {
-      if (index < choiceCount) {
-        // 选择题
-        const distractors = shuffled
-          .filter(w => w._id !== word._id && w.meaning)
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 3)
-          .map(w => ({ text: w.meaning, isCorrect: false }));
+    shuffled.forEach((word) => {
+      const distractors = distractorPool
+        .filter(w => (w._id || w.wordId) !== (word._id || word.wordId) && w.meaning)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3)
+        .map(w => ({ text: w.meaning, isCorrect: false }));
 
-        while (distractors.length < 3) {
-          distractors.push({ text: '未知', isCorrect: false });
-        }
-
-        const options = shuffle([
-          { text: word.meaning, isCorrect: true },
-          ...distractors.slice(0, 3)
-        ]);
-
-        questions.push({
-          type: 'choice',
-          wordId: word._id || word.wordId,
-          word: word.word,
-          meaning: word.meaning,
-          phonetic: word.phonetic || '',
-          options,
-          correctMeaning: word.meaning
-        });
-      } else {
-        // 拼写题
-        questions.push({
-          type: 'spelling',
-          wordId: word._id || word.wordId,
-          word: word.word,
-          meaning: word.meaning,
-          correctAnswer: word.word
-        });
+      while (distractors.length < 3) {
+        distractors.push({ text: '以上都不对', isCorrect: false });
       }
+
+      const options = shuffle([
+        { text: word.meaning, isCorrect: true },
+        ...distractors.slice(0, 3)
+      ]);
+
+      questions.push({
+        type: 'choice',
+        wordId: word._id || word.wordId,
+        word: word.word,
+        meaning: word.meaning,
+        phonetic: word.phonetic || '',
+        options,
+        correctMeaning: word.meaning
+      });
     });
 
     return shuffle(questions);
@@ -179,35 +177,6 @@ Page({
       selectedOption: index,
       feedbackType: isCorrect ? 'correct' : 'wrong',
       correctAnswerText: isCorrect ? '' : question.correctMeaning
-    });
-
-    this.recordAnswer(question.wordId, isCorrect, question);
-    this.startAutoTimer();
-  },
-
-  // ==================== 拼写题交互 ====================
-
-  onSpellingInput(e) {
-    this.setData({ spellingValue: e.detail.value });
-  },
-
-  onSubmitSpelling(e) {
-    if (this.data.answered) return;
-
-    const value = (e.detail.value.spelling || '').trim();
-    if (!value) {
-      util.showToast('请输入答案');
-      return;
-    }
-
-    const question = this.data.questions[this.data.currentIndex];
-    const isCorrect = value.toLowerCase() === question.correctAnswer.toLowerCase();
-
-    this.setData({
-      answered: true,
-      spellingResult: isCorrect,
-      feedbackType: isCorrect ? 'correct' : 'wrong',
-      correctAnswerText: isCorrect ? '' : question.correctAnswer
     });
 
     this.recordAnswer(question.wordId, isCorrect, question);
@@ -264,8 +233,6 @@ Page({
       currentQuestion: this.data.questions[nextIndex],
       answered: false,
       selectedOption: -1,
-      spellingValue: '',
-      spellingResult: null,
       feedbackType: '',
       correctAnswerText: ''
     });
@@ -326,8 +293,6 @@ Page({
       currentQuestion: null,
       answered: false,
       selectedOption: -1,
-      spellingValue: '',
-      spellingResult: null,
       feedbackType: '',
       correctAnswerText: '',
       correctCount: 0,

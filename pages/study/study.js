@@ -11,7 +11,6 @@ Page({
     currentIndex: 0,
     flipped: false,
     showCompleteModal: false,
-    startTime: 0,         // 学习开始时间(ms)
     currentWord: null
   },
 
@@ -30,8 +29,7 @@ Page({
     this.bookId = bookId;
     this.setData({
       mode,
-      loading: true,
-      startTime: Date.now()
+      loading: true
     });
 
     this.loadWords(bookId, mode);

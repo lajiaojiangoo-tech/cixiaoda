@@ -18,9 +18,9 @@ Page({
     currentBookId: '',
     // 推荐轮播
     banners: [
-      { tag: '词库', title: '四级词汇+高考词汇', desc: '两大词库，总有一本适合你', demo: 'abandon', bg: 'linear-gradient(135deg, #EEF4FB, #E1EEFA)' },
-      { tag: '学习', title: '新词学习+复习巩固', desc: '学完新词别忘了回来复习', demo: 'review', bg: 'linear-gradient(135deg, #EEF8F1, #DCF0E3)' },
-      { tag: '测验', title: '选择题+拼写题', desc: '多种题型，检验学习成果', demo: 'pass', bg: 'linear-gradient(135deg, #FEF6ED, #FDECD6)' }
+      { tag: '学习', title: '每日新词推送', desc: '智能安排新词，每日进步一点点', demo: 'learn', bg: 'linear-gradient(135deg, #EEF4FB, #E1EEFA)' },
+      { tag: '复习', title: '巩固已学单词', desc: '根据记忆曲线科学安排复习', demo: 'memory', bg: 'linear-gradient(135deg, #EEF8F1, #DCF0E3)' },
+      { tag: '进度', title: '学习从不间断', desc: '连续打卡，见证你的成长', demo: 'streak', bg: 'linear-gradient(135deg, #FEF6ED, #FDECD6)' }
     ],
     // 日历
     calendarYear: 0,
@@ -55,7 +55,7 @@ Page({
     } else {
       this.setData({
         userInfo: {},
-        avatarChar: '学'
+        avatarChar: '词'
       });
     }
   },
