@@ -1,0 +1,75 @@
+<navbar title="单词书"></navbar>
+<view class="page-container">
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <view class="search-icon-css"></view>
+    <input class="search-input" placeholder="搜索单词书名称" placeholder-style="color: var(--text-placeholder)" bindinput="onSearchInput" value="{{keyword}}" confirm-type="search" />
+    <text class="search-clear" wx:if="{{keyword}}" bindtap="onClearSearch">✕</text>
+  </view>
+
+  <!-- 加载中（转圈圈） -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <view class="spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:elif="{{!loading && list.length === 0 && !error}}" class="empty-state">
+    <view class="empty-icon-circle">
+      <view class="icon-book"></view>
+    </view>
+    <text class="empty-title">暂未上传单词书</text>
+    <text class="empty-desc">请等待管理员上传单词书数据</text>
+  </view>
+
+  <!-- 加载失败 -->
+  <view wx:elif="{{!loading && error}}" class="empty-state">
+    <view class="empty-icon-circle">
+      <view class="icon-warning"></view>
+    </view>
+    <text class="empty-title">加载失败</text>
+    <text class="empty-desc">下拉刷新重新加载</text>
+  </view>
+
+  <!-- 单词书列表 -->
+  <view wx:else class="book-list">
+    <view class="book-card" wx:for="{{list}}" wx:key="_id" data-id="{{item._id}}" data-name="{{item.name}}" bindtap="onSelectBook">
+      <!-- 封面图区域 -->
+      <view class="book-cover">
+        <image wx:if="{{item.coverImage}}" src="{{item.coverImage}}" mode="aspectFill" class="book-cover-img"></image>
+        <view wx:else class="book-cover-placeholder">
+          <text class="cover-placeholder-text">{{item.name.slice(0, 2)}}</text>
+        </view>
+      </view>
+      <!-- 文字信息 -->
+      <view class="book-info">
+        <view class="book-title-row">
+          <text class="book-name">{{item.name}}</text>
+          <view class="book-action">
+            <button wx:if="{{item._id === currentBookId}}" class="btn-using" disabled>使用中</button>
+            <button wx:else class="btn-select">选择</button>
+          </view>
+        </view>
+        <text class="book-desc">{{item.description}}</text>
+        <view class="book-progress">
+          <text class="progress-label">{{item.progress.learned}}/{{item.totalWords}} 词</text>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{item.progressPercent}}%"></view>
+          </view>
+          <text class="progress-percent">{{item.progressPercent}}%</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore && !loadingMore}}">
+      <text class="load-more-text">上拉加载更多</text>
+    </view>
+    <view class="load-more" wx:elif="{{loadingMore}}">
+      <text class="load-more-text">加载中...</text>
+    </view>
+    <view class="load-more" wx:elif="{{list.length > 0 && !hasMore}}">
+      <text class="load-more-text load-more-end">—— 已展示全部单词书 ——</text>
+    </view>
+  </view>
+</view>

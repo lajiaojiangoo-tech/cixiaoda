@@ -1,0 +1,9 @@
+{
+  "name": "getTodayStudyWords",
+  "version": "1.0.0",
+  "description": "获取今日待学新词和待复习词",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "^2.6.3"
+  }
+}

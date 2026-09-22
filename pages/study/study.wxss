@@ -1,0 +1,272 @@
+/* ===== 学习页样式 ===== */
+
+.page-container {
+  padding: 0 40rpx;
+  min-height: calc(100vh - 200rpx);
+}
+
+/* ===== 进度条（page-specific） ===== */
+.progress-label {
+  font-size: var(--font-size-caption);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.progress-count {
+  font-size: var(--font-size-small);
+  color: var(--text-secondary);
+}
+
+/* ===== 单词卡片 ===== */
+.card-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  min-height: 500rpx;
+}
+
+.card-wrapper {
+  width: 100%;
+  height: 480rpx;
+  perspective: 1200rpx;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.card-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-card);
+  background: var(--card-bg);
+  box-shadow: var(--elevation-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx 40rpx;
+  box-sizing: border-box;
+  border: 2rpx solid rgba(74, 144, 226, 0.12);
+}
+
+/* 正面：英文 */
+.card-front {
+  z-index: 2;
+}
+
+.card-word {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16rpx;
+  text-align: center;
+}
+
+.card-phonetic {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  margin-bottom: 24rpx;
+}
+
+/* 翻页图标 - 卡片底部居中 */
+.card-flip-btn {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #F0F7FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+}
+
+/* 右箭头 */
+.flip-icon-arrow {
+  width: 0;
+  height: 0;
+  border-top: 10rpx solid transparent;
+  border-bottom: 10rpx solid transparent;
+  border-left: 14rpx solid var(--primary);
+  margin-left: 4rpx;
+}
+
+/* 背面：中文 */
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-meaning {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12rpx;
+  text-align: center;
+}
+
+.card-pos {
+  font-size: 28rpx;
+  color: var(--primary);
+  margin-bottom: 24rpx;
+}
+
+.card-example {
+  background: var(--primary-subtle);
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card-example-text {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  line-height: 1.6;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.card-example-trans {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: block;
+}
+
+/* ===== 操作按钮 ===== */
+.action-section {
+  padding: 24rpx 0 48rpx;
+  display: flex;
+  gap: 32rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 100rpx;
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.action-btn:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.action-btn-forget {
+  background: linear-gradient(135deg, var(--accent-red), #FF6B6B);
+  box-shadow: 0 4rpx 16rpx rgba(255, 59, 48, 0.25);
+}
+
+.action-btn-know {
+  background: linear-gradient(135deg, var(--accent-green), #50D974);
+  box-shadow: 0 4rpx 16rpx rgba(52, 199, 89, 0.25);
+}
+
+.action-btn-text {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ===== 完成弹窗 ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  width: 560rpx;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24rpx);
+  -webkit-backdrop-filter: blur(24rpx);
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--elevation-5);
+  animation: springIn 0.45s ease both;
+}
+
+.modal-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.modal-title {
+  font-size: var(--font-size-title2);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12rpx;
+}
+
+.modal-desc {
+  font-size: var(--font-size-caption);
+  color: var(--text-secondary);
+  margin-bottom: 40rpx;
+  text-align: center;
+}
+
+.modal-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.modal-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: var(--radius-button);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+}
+
+.modal-btn::after {
+  border: none;
+}
+
+.modal-btn-primary {
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(74, 144, 226, 0.3);
+}
+
+.modal-btn-secondary {
+  background: #F5F7FA;
+  color: var(--text-secondary);
+}

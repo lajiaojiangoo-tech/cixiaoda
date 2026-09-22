@@ -1,0 +1,9 @@
+{
+  "name": "getUserData",
+  "version": "1.0.0",
+  "description": "获取用户设置及学习进度概览",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "^2.6.3"
+  }
+}

@@ -1,0 +1,14 @@
+<view class="navbar" style="padding-top: {{statusBarHeight}}px;">
+  <view class="navbar-inner">
+    <view class="navbar-left">
+      <view class="navbar-back {{showBack ? '' : 'hidden'}}" bindtap="onBack">
+        <image class="back-icon" src="/images/icons/back_white.png" mode="aspectFit"></image>
+        <text class="back-text">返回</text>
+      </view>
+    </view>
+    <view class="navbar-title">{{title}}</view>
+    <view class="navbar-right">
+      <slot name="right"></slot>
+    </view>
+  </view>
+</view>

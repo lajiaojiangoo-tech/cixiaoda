@@ -1,0 +1,9 @@
+{
+  "name": "removeFromVocabulary",
+  "version": "1.0.0",
+  "description": "从生词本移除单词",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "^2.6.3"
+  }
+}

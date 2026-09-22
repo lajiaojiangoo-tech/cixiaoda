@@ -1,0 +1,9 @@
+{
+  "name": "getStudyRecords",
+  "version": "1.0.0",
+  "description": "获取学习日历数据（月视图）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "^2.6.3"
+  }
+}

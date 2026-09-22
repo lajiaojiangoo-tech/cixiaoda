@@ -1,0 +1,94 @@
+<navbar title="个人中心" showBack="{{false}}"></navbar>
+<view class="page-container">
+
+  <!-- ===== 顶部用户信息卡 ===== -->
+  <view class="user-card">
+    <view class="user-avatar-wrap">
+      <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image wx:if="{{avatarUrl}}" src="{{avatarUrl}}" mode="aspectFill" class="avatar-img"></image>
+        <view wx:else class="avatar-placeholder">
+          <text class="avatar-placeholder-text">{{avatarChar}}</text>
+        </view>
+      </button>
+    </view>
+    <input class="nickname-input" type="nickname" placeholder="点击设置昵称" value="{{nickname}}" bindinput="onNicknameInput" />
+    <view class="user-stats">
+      <view class="stat-item">
+        <text class="stat-number">{{statistics.totalLearned || 0}}</text>
+        <text class="stat-label">累计学习</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-number">{{statistics.streak || 0}}</text>
+        <text class="stat-label">连续打卡</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-number">{{formattedDuration}}</text>
+        <text class="stat-label">学习时长</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 学习目标设置 ===== -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">学习目标</text>
+    </view>
+    <view class="settings-card">
+      <view class="setting-item">
+        <view class="setting-left">
+          <text class="setting-label">每日新词目标</text>
+          <text class="setting-desc">每次学习的新单词数量</text>
+        </view>
+        <view class="stepper">
+          <view class="stepper-btn" bindtap="onNewWordTargetChange" data-delta="-5">−</view>
+          <text class="stepper-value">{{settings.dailyNewWords || 20}}</text>
+          <view class="stepper-btn" bindtap="onNewWordTargetChange" data-delta="5">+</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 更多 ===== -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">更多</text>
+    </view>
+    <view class="settings-card">
+      <view class="menu-item" bindtap="onGoFeedback">
+        <text class="menu-label">意见反馈</text>
+        <view class="menu-right">
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+      <view class="setting-divider"></view>
+      <view class="menu-item" bindtap="onGoAbout">
+        <text class="menu-label">关于我们</text>
+        <view class="menu-right">
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 退出登录 ===== -->
+  <view class="logout-section" wx:if="{{nickname}}">
+    <button class="logout-btn" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <!-- ===== 关于弹窗 ===== -->
+  <view class="modal-mask" wx:if="{{showAbout}}" bindtap="onCloseAbout"></view>
+  <view class="modal-content" wx:if="{{showAbout}}">
+    <view class="modal-box">
+      <text class="modal-title">关于词小达</text>
+      <view class="modal-body">
+        <text class="modal-text">词小达（WordWise）是一款轻量高效的单词记忆小程序，帮助你利用碎片时间轻松背单词。</text>
+        <text class="modal-text version">版本 1.0.0</text>
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn" bindtap="onCloseAbout">知道了</button>
+      </view>
+    </view>
+  </view>
+</view>

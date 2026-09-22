@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/books/books",
+    "pages/study/study",
+    "pages/test/test",
+    "pages/detail/detail",
+    "pages/notebook/notebook",
+    "pages/mine/mine",
+    "pages/feedback/feedback"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#F5F7FA",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4A90E2",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/images/tabbar/home_normal.png",
+        "selectedIconPath": "/images/tabbar/home_selected.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/notebook/notebook",
+        "iconPath": "/images/tabbar/notebook_normal.png",
+        "selectedIconPath": "/images/tabbar/notebook_selected.png",
+        "text": "生词本"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "/images/tabbar/mine_normal.png",
+        "selectedIconPath": "/images/tabbar/mine_selected.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {
+    "navbar": "/components/navbar/navbar"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

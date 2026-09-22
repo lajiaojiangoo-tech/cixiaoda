@@ -1,0 +1,269 @@
+/* ===== 单词详情页样式 ===== */
+
+.page-container {
+  padding: 0 40rpx;
+  min-height: calc(100vh - 200rpx);
+  padding-bottom: 160rpx; /* 底部操作栏空间 */
+}
+
+/* ===== 加载状态 ===== */
+.loading-area {
+  padding-top: 200rpx;
+}
+
+/* ===== 顶部单词标题 ===== */
+
+.word-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 48rpx 0 32rpx;
+}
+
+.word-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.word-text {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.word-phonetic {
+  font-size: 32rpx;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.word-audio-btn {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: var(--card-bg);
+  box-shadow: var(--elevation-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.word-audio-btn:active {
+  opacity: 0.8;
+  transform: scale(0.95);
+}
+
+.audio-icon {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.audio-icon-inner {
+  width: 18rpx;
+  height: 22rpx;
+  background: var(--primary);
+  border-radius: 2rpx 8rpx 8rpx 2rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.audio-icon-inner::after {
+  content: '';
+  position: absolute;
+  left: -8rpx;
+  bottom: 2rpx;
+  border-style: solid;
+  border-width: 9rpx 12rpx 9rpx 0;
+  border-color: transparent var(--primary) transparent transparent;
+}
+
+.audio-wave {
+  width: 4rpx;
+  height: 16rpx;
+  background: var(--primary);
+  border-radius: 2rpx;
+  margin-left: 3rpx;
+  opacity: 0.6;
+}
+
+.audio-wave-1 { height: 12rpx; }
+.audio-wave-2 { height: 20rpx; opacity: 0.4; }
+.audio-wave-3 { height: 14rpx; opacity: 0.25; }
+
+/* ===== 标签栏 ===== */
+
+.tab-bar {
+  display: flex;
+  gap: 40rpx;
+  border-bottom: 2rpx solid var(--border-color);
+  padding-bottom: 0;
+}
+
+.tab-item {
+  font-size: var(--font-size-body);
+  color: var(--text-secondary);
+  padding: 16rpx 0;
+  position: relative;
+  cursor: default;
+}
+
+.tab-item.tab-active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.tab-item.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2rpx;
+  left: 0;
+  right: 0;
+  height: 6rpx;
+  background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  border-radius: 3rpx;
+}
+
+/* ===== 标签内容 ===== */
+
+.tab-content {
+  padding: 32rpx 0;
+}
+
+/* 释义 */
+.meaning-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.meaning-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  line-height: 1.5;
+}
+
+.meaning-pos {
+  font-size: var(--font-size-caption);
+  color: var(--primary);
+  background: var(--primary-subtle);
+  padding: 2rpx 12rpx;
+  border-radius: 6rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 4rpx;
+}
+
+.meaning-def {
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* 例句 */
+.examples-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+.example-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding: 24rpx;
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--elevation-1);
+}
+
+.example-en {
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.example-zh {
+  font-size: var(--font-size-caption);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* 同义词 */
+.synonyms-section {
+  padding: 8rpx 0;
+}
+
+.synonyms-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.synonym-tag {
+  font-size: var(--font-size-caption);
+  color: var(--primary);
+  background: var(--primary-subtle);
+  padding: 12rpx 24rpx;
+  border-radius: 32rpx;
+  line-height: 1.4;
+}
+
+/* ===== 底部固定操作栏 ===== */
+
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--card-bg);
+  padding: 20rpx 40rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom, 20rpx));
+  box-shadow: var(--elevation-4);
+  z-index: 10;
+}
+
+.bottom-bar-inner {
+  display: flex;
+  gap: 24rpx;
+}
+
+.bar-btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  border-radius: var(--radius-button);
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bar-btn::after {
+  border: none;
+}
+
+.bar-btn:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.bar-btn-outline {
+  background: var(--card-bg);
+  color: var(--primary);
+  border: 2rpx solid var(--primary);
+}
+
+.bar-btn-danger {
+  color: var(--accent-red);
+  border-color: var(--accent-red);
+}

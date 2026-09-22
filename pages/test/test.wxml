@@ -1,0 +1,119 @@
+<navbar title="单词测试"></navbar>
+
+<!-- ===== 加载中 ===== -->
+<view class="page-container flex-center" wx:if="{{loading}}">
+  <view class="loading-area">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>
+
+<!-- ===== 测试进行中 ===== -->
+<view class="page-container flex-col" wx:elif="{{!showResult}}">
+  <!-- 题号与进度条 -->
+  <view class="progress-section">
+    <view class="progress-header">
+      <text class="progress-index">{{currentIndex + 1}} / {{totalCount}}</text>
+      <text class="progress-type">{{currentQuestion.type === 'choice' ? '选择题' : '拼写题'}}</text>
+    </view>
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{totalCount > 0 ? (currentIndex / totalCount) * 100 : 0}}%;"></view>
+    </view>
+  </view>
+
+  <!-- 选择题 -->
+  <view class="question-area" wx:if="{{currentQuestion.type === 'choice'}}">
+    <text class="question-prompt">{{currentQuestion.word}}</text>
+    <text class="question-phonetic" wx:if="{{currentQuestion.phonetic}}">{{currentQuestion.phonetic}}</text>
+
+    <view class="options-list">
+      <view
+        wx:for="{{currentQuestion.options}}"
+        wx:for-index="index"
+        wx:key="index"
+        class="option-item {{answered && item.isCorrect ? 'option-correct' : ''}} {{answered && index === selectedOption && !item.isCorrect ? 'option-wrong' : ''}}"
+        data-index="{{index}}"
+        bindtap="onSelectOption"
+      >
+        <view class="option-content">
+          <text class="option-text">{{item.text}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="correct-answer-bar" wx:if="{{feedbackType === 'wrong' && correctAnswerText}}">
+      <text class="correct-answer-label">正确答案：</text>
+      <text class="correct-answer-text">{{correctAnswerText}}</text>
+    </view>
+  </view>
+
+  <!-- 拼写题 -->
+  <view class="question-area" wx:else>
+    <text class="question-prompt question-prompt-spelling">{{currentQuestion.meaning}}</text>
+
+    <form class="spelling-form" bindsubmit="onSubmitSpelling">
+      <input
+        class="spelling-input {{answered ? (spellingResult ? 'input-correct' : 'input-wrong') : ''}}"
+        name="spelling"
+        placeholder="输入英文单词"
+        value="{{spellingValue}}"
+        bindinput="onSpellingInput"
+        disabled="{{answered}}"
+        focus="{{!answered}}"
+      />
+      <button class="submit-btn" form-type="submit" disabled="{{answered || !spellingValue}}">提交</button>
+    </form>
+
+    <view class="spelling-feedback" wx:if="{{answered}}">
+      <view class="feedback-row feedback-correct" wx:if="{{spellingResult}}">
+        <text class="feedback-text">回答正确！</text>
+      </view>
+      <view class="feedback-row feedback-wrong" wx:else>
+        <text class="feedback-text">正确答案：</text>
+        <text class="feedback-answer">{{correctAnswerText}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- ===== 测试结果 ===== -->
+<view class="page-container flex-col result-page" wx:else>
+  <view class="result-hero">
+    <view class="score-ring-outer" style="background: conic-gradient(var(--primary) 0% {{accuracy}}%, #E8EDF3 {{accuracy}}% 100%);">
+      <view class="score-ring-inner">
+        <text class="score-number">{{correctCount}}</text>
+        <text class="score-divider">/</text>
+        <text class="score-total">{{totalCount}}</text>
+      </view>
+    </view>
+    <text class="result-accuracy">{{accuracy}}% 正确率</text>
+  </view>
+
+  <view class="result-list-section">
+    <text class="result-list-title">单词对错列表</text>
+    <scroll-view class="result-list" scroll-y>
+      <view
+        wx:for="{{resultDetails}}"
+        wx:for-index="idx"
+        wx:key="wordId"
+        class="result-item {{item.isCorrect ? 'item-correct' : 'item-wrong'}}"
+      >
+        <view class="result-item-left">
+          <text class="result-item-icon">{{item.isCorrect ? '✓' : '✗'}}</text>
+          <view class="result-item-word-group">
+            <text class="result-item-word">{{item.word}}</text>
+            <text class="result-item-meaning" wx:if="{{item.meaning}}">{{item.meaning}}</text>
+          </view>
+        </view>
+        <text class="result-item-status">{{item.isCorrect ? '正确' : '错误'}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="result-actions">
+    <button class="action-btn action-btn-secondary" bindtap="onRetryWrong" wx:if="{{wrongWordIds.length > 0}}">
+      重新测试错词 ({{wrongWordIds.length}})
+    </button>
+    <button class="action-btn action-btn-primary" bindtap="goHome">返回首页</button>
+  </view>
+</view>

@@ -1,0 +1,108 @@
+<navbar title="生词本" showBack="{{false}}"></navbar>
+<view class="page-container">
+  <!-- ===== 搜索栏 ===== -->
+  <view class="search-bar">
+    <view class="search-box">
+      <view class="search-icon"></view>
+      <input
+        class="search-input"
+        placeholder="搜索生词"
+        placeholder-class="placeholder"
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+      />
+      <text class="search-clear" wx:if="{{keyword}}" bindtap="onClearSearch">×</text>
+    </view>
+    <view class="sort-btn {{sortBy === 'alpha' ? 'sort-active' : ''}}" bindtap="onToggleSort">
+      <text class="sort-icon">A-Z</text>
+    </view>
+  </view>
+
+  <!-- ===== 加载中 ===== -->
+  <view class="loading-area" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- ===== 空状态 ===== -->
+  <view class="empty-state" wx:elif="{{!loading && list.length === 0}}">
+    <view class="empty-icon-circle">
+      <view class="icon-book"></view>
+    </view>
+    <text class="empty-title">还没有生词</text>
+    <text class="empty-desc">开始学习吧，生词会自动记录在这里</text>
+  </view>
+
+  <!-- ===== 生词列表 ===== -->
+  <scroll-view
+    class="word-list"
+    wx:elif="{{list.length > 0}}"
+    scroll-y
+    enable-back-to-top
+    bindscrolltolower="onLoadMore"
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <view
+      class="list-item-wrapper"
+      wx:for="{{list}}"
+      wx:for-index="idx"
+      wx:key="_id"
+      data-id="{{item._id}}"
+      data-index="{{idx}}"
+      bindtouchstart="onTouchStart"
+      bindtouchend="onTouchEnd"
+    >
+      <view class="list-item {{swipedItemId === item._id ? 'swiped' : ''}}">
+        <view class="item-content" bindtap="onSelectItem" data-id="{{item._id}}" data-index="{{idx}}">
+          <view class="item-left">
+            <checkbox
+              class="item-checkbox"
+              checked="{{item.checked}}"
+              catchtap="onToggleCheck"
+              data-index="{{idx}}"
+              wx:if="{{showCheckbox}}"
+            />
+            <view class="item-info">
+              <text class="item-word">{{item.word}}</text>
+              <text class="item-meaning">{{item.meaning}}</text>
+            </view>
+          </view>
+          <view class="item-right">
+            <text class="item-time">{{item.createdAt}}</text>
+            <text class="item-arrow">›</text>
+          </view>
+        </view>
+        <view class="item-delete" catchtap="onRemoveItem" data-id="{{item._id}}">移除</view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore}}">
+      <text class="load-more-text">加载更多...</text>
+    </view>
+    <view class="load-more" wx:elif="{{list.length >= total}}">
+      <text class="load-more-text load-more-end">— 已加载全部 —</text>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- ===== 底部操作栏 ===== -->
+<view class="bottom-bar" wx:if="{{!loading && list.length > 0}}">
+  <view class="bottom-bar-inner">
+    <view class="bar-action bar-select-all" bindtap="onToggleSelectAll">
+      <checkbox class="bar-checkbox" checked="{{allSelected}}" />
+      <text class="bar-label">{{allSelected ? '取消全选' : '全选'}}</text>
+    </view>
+    <button
+      class="bar-btn bar-btn-danger {{selectedCount === 0 ? 'bar-btn-disabled' : ''}}"
+      disabled="{{selectedCount === 0}}"
+      bindtap="onBatchRemove"
+    >批量移除 ({{selectedCount}})</button>
+    <button
+      class="bar-btn bar-btn-primary"
+      bindtap="onStartQuiz"
+    >生词测验</button>
+  </view>
+</view>

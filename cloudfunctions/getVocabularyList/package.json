@@ -1,0 +1,9 @@
+{
+  "name": "getVocabularyList",
+  "version": "1.0.0",
+  "description": "获取生词本列表（搜索、排序、分页）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "^2.6.3"
+  }
+}

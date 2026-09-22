@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "navbar": "/components/navbar/navbar"
+  },
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#F5F7FA",
+  "onReachBottomDistance": 100
+}

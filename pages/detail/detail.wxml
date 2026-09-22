@@ -1,0 +1,94 @@
+<navbar title="单词详情"></navbar>
+<view class="page-container">
+  <!-- ===== 加载中 ===== -->
+  <view class="loading-area" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- ===== 内容区 ===== -->
+  <view class="content-area" wx:else>
+    <!-- 顶部大标题 -->
+    <view class="word-header">
+      <view class="word-header-text">
+        <text class="word-text">{{word.word}}</text>
+        <text class="word-phonetic" wx:if="{{word.phonetic}}">{{word.phonetic}}</text>
+      </view>
+      <view class="word-audio-btn" bindtap="onPlayAudio" wx:if="{{word.word}}">
+        <view class="audio-icon">
+          <view class="audio-icon-inner"></view>
+          <view class="audio-wave audio-wave-1"></view>
+          <view class="audio-wave audio-wave-2"></view>
+          <view class="audio-wave audio-wave-3"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 标签页切换 -->
+    <view class="tab-bar">
+      <view
+        class="tab-item {{currentTab === 0 ? 'tab-active' : ''}}"
+        data-tab="0"
+        bindtap="onSwitchTab"
+      >释义</view>
+      <view
+        class="tab-item {{currentTab === 1 ? 'tab-active' : ''}}"
+        data-tab="1"
+        bindtap="onSwitchTab"
+        wx:if="{{hasExamples}}"
+      >例句</view>
+      <view
+        class="tab-item {{currentTab === 2 ? 'tab-active' : ''}}"
+        data-tab="2"
+        bindtap="onSwitchTab"
+        wx:if="{{hasSynonyms}}"
+      >同义词</view>
+    </view>
+
+    <!-- 释义 -->
+    <view class="tab-content" wx:if="{{currentTab === 0}}">
+      <view class="meaning-list">
+        <view class="meaning-item" wx:for="{{meanings}}" wx:for-index="idx" wx:key="idx">
+          <text class="meaning-pos" wx:if="{{item.pos}}">{{item.pos}}</text>
+          <text class="meaning-def">{{item.def}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 例句 -->
+    <view class="tab-content" wx:elif="{{currentTab === 1}}">
+      <view class="examples-section">
+        <view class="example-item" wx:for="{{examples}}" wx:for-index="idx" wx:key="idx">
+          <text class="example-en">{{item.en}}</text>
+          <text class="example-zh">{{item.zh}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 同义词 -->
+    <view class="tab-content" wx:elif="{{currentTab === 2}}">
+      <view class="synonyms-section">
+        <view class="synonyms-tags">
+          <text class="synonym-tag" wx:for="{{synonyms}}" wx:for-index="idx" wx:key="idx">{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- ===== 底部固定操作栏 ===== -->
+<view class="bottom-bar" wx:if="{{!loading}}">
+  <view class="bottom-bar-inner">
+    <button
+      class="bar-btn bar-btn-outline {{inVocabulary ? 'bar-btn-danger' : ''}}"
+      bindtap="onToggleVocabulary"
+    >
+      {{inVocabulary ? '移出生词本' : '加入生词本'}}
+    </button>
+    <button
+      class="bar-btn bar-btn-outline"
+      bindtap="onMarkMastered"
+      wx:if="{{!isMastered}}"
+    >标记为已掌握</button>
+  </view>
+</view>

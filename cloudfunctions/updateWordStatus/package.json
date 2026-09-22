@@ -1,0 +1,9 @@
+{
+  "name": "updateWordStatus",
+  "version": "1.0.0",
+  "description": "更新单词学习状态及下次复习时间",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "^2.6.3"
+  }
+}

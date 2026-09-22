@@ -1,0 +1,9 @@
+{
+  "name": "initUserProgress",
+  "version": "1.0.0",
+  "description": "用户选择单词书后初始化学习进度",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "^2.6.3"
+  }
+}

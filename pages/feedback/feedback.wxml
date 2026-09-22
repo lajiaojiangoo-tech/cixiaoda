@@ -1,0 +1,72 @@
+<navbar title="意见反馈"></navbar>
+<view class="page-container">
+  <form bindsubmit="onSubmit" report-submit="false">
+
+    <!-- ===== 反馈类型 ===== -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text>
+        <text>反馈类型</text>
+      </view>
+      <radio-group class="radio-group" bindchange="onTypeChange">
+        <label class="radio-item">
+          <radio value="建议" color="#4A90E2" checked="{{formType === '建议'}}" />
+          <text class="radio-text">建议</text>
+        </label>
+        <label class="radio-item">
+          <radio value="问题" color="#4A90E2" checked="{{formType === '问题'}}" />
+          <text class="radio-text">问题</text>
+        </label>
+        <label class="radio-item">
+          <radio value="其他" color="#4A90E2" checked="{{formType === '其他'}}" />
+          <text class="radio-text">其他</text>
+        </label>
+      </radio-group>
+    </view>
+
+    <!-- ===== 反馈内容 ===== -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text>
+        <text>反馈内容</text>
+      </view>
+      <textarea
+        class="form-textarea"
+        placeholder="请详细描述您的建议或遇到的问题（不少于5个字）"
+        placeholder-class="placeholder"
+        value="{{formContent}}"
+        bindinput="onContentInput"
+        maxlength="500"
+        auto-height
+      />
+      <text class="char-count">{{contentLength}}/500</text>
+    </view>
+
+    <!-- ===== 联系方式 ===== -->
+    <view class="form-group">
+      <view class="form-label">
+        <text>联系方式</text>
+        <text class="optional">（选填）</text>
+      </view>
+      <input
+        class="form-input"
+        placeholder="手机号/QQ/微信等"
+        placeholder-class="placeholder"
+        value="{{formContact}}"
+        bindinput="onContactInput"
+      />
+    </view>
+
+    <!-- ===== 提交按钮 ===== -->
+    <view class="form-group submit-group">
+      <button class="submit-btn" form-type="submit" loading="{{submitting}}">
+        {{submitting ? '提交中...' : '提交反馈'}}
+      </button>
+    </view>
+
+    <!-- ===== 验证提示 ===== -->
+    <view class="error-tip" wx:if="{{errorMsg}}">
+      <text class="error-text">{{errorMsg}}</text>
+    </view>
+  </form>
+</view>

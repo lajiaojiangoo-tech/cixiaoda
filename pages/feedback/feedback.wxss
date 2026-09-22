@@ -1,0 +1,151 @@
+/* ===== 意见反馈页 ===== */
+
+.page-container {
+  padding: 0 40rpx;
+}
+
+/* ===== 表单项 ===== */
+
+.form-group {
+  margin-top: 32rpx;
+}
+
+.form-label {
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: center;
+}
+
+.required {
+  color: var(--danger);
+  margin-right: 6rpx;
+  font-weight: 700;
+}
+
+.optional {
+  font-size: var(--font-size-small);
+  color: var(--text-placeholder);
+  font-weight: 400;
+  margin-left: 6rpx;
+}
+
+/* ===== 单选按钮组 ===== */
+
+.radio-group {
+  display: flex;
+  gap: 32rpx;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.radio-text {
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+}
+
+/* ===== 文本域 ===== */
+
+.form-textarea {
+  width: 100%;
+  min-height: 200rpx;
+  background: var(--card-bg);
+  border-radius: var(--radius-input);
+  padding: 24rpx 30rpx;
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  line-height: 1.5;
+  box-sizing: border-box;
+  border: 2rpx solid var(--gray-200);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4rpx rgba(74, 144, 226, 0.12);
+}
+
+.char-count {
+  display: block;
+  text-align: right;
+  font-size: var(--font-size-small);
+  color: var(--text-placeholder);
+  margin-top: 8rpx;
+  padding-right: 8rpx;
+}
+
+/* ===== 输入框 ===== */
+
+.form-input {
+  width: 100%;
+  height: 88rpx;
+  background: var(--card-bg);
+  border-radius: var(--radius-input);
+  padding: 0 30rpx;
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  box-sizing: border-box;
+  border: 2rpx solid var(--gray-200);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4rpx rgba(74, 144, 226, 0.12);
+}
+
+/* ===== 占位符 ===== */
+
+.placeholder {
+  color: var(--text-placeholder);
+  font-size: var(--font-size-body);
+}
+
+/* ===== 提交按钮 ===== */
+
+.submit-group {
+  margin-top: 40rpx;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #fff;
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  border-radius: var(--radius-button);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 4rpx 16rpx rgba(74, 144, 226, 0.3);
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+.submit-btn:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+/* ===== 错误提示 ===== */
+
+.error-tip {
+  margin-top: 24rpx;
+  padding: 20rpx;
+  background: var(--accent-red-subtle);
+  border-radius: var(--radius-input);
+  text-align: center;
+}
+
+.error-text {
+  font-size: var(--font-size-caption);
+  color: var(--accent-red);
+}

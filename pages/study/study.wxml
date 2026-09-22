@@ -1,0 +1,89 @@
+<navbar title="单词学习"></navbar>
+
+<!-- 加载中 -->
+<view class="page-container flex-center" wx:if="{{loading}}">
+  <view class="loading-area">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>
+
+<!-- 无数据 -->
+<view class="page-container flex-center" wx:elif="{{!loading && words.length === 0}}">
+  <view class="empty-state">
+    <view class="empty-icon-circle">
+      <text class="empty-icon-text">{{mode === 'review' ? '🎉' : '📖'}}</text>
+    </view>
+    <text class="empty-title">
+      {{mode === 'review' ? '暂无待复习单词' : '今日新词已学完'}}
+    </text>
+    <text class="empty-desc">
+      {{mode === 'review' ? '太棒了，继续保持！' : '真棒，明天再来学习新词吧'}}
+    </text>
+    <button class="primary-btn" bindtap="goBack">返回首页</button>
+  </view>
+</view>
+
+<!-- 学习主界面 -->
+<view class="page-container flex-col" wx:else bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">
+  <!-- 顶部进度信息 -->
+  <view class="progress-section">
+    <view class="progress-header">
+      <text class="progress-label">{{mode === 'new' ? '新词学习' : '复习巩固'}}</text>
+      <text class="progress-count">{{currentIndex + 1}} / {{words.length}}</text>
+    </view>
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{(currentIndex / words.length) * 100}}%; transition: width 0.5s ease;"></view>
+    </view>
+  </view>
+
+  <!-- 单词卡片 -->
+  <view class="card-section" bindtap="onFlipCard">
+    <view class="card-wrapper">
+      <view class="card-inner {{flipped ? 'card-flipped' : ''}}">
+        <!-- 正面：英文 -->
+        <view class="card-face card-front">
+          <text class="card-word">{{currentWord.word || ''}}</text>
+          <text class="card-phonetic" wx:if="{{currentWord.phonetic}}">{{currentWord.phonetic}}</text>
+          <view class="card-flip-btn" catchtap="onFlipCard">
+            <view class="flip-icon-arrow"></view>
+          </view>
+        </view>
+
+        <!-- 背面：中文 -->
+        <view class="card-face card-back">
+          <text class="card-meaning">{{currentWord.meaning || ''}}</text>
+          <text class="card-pos" wx:if="{{currentWord.pos}}">{{currentWord.pos}}</text>
+          <view class="card-example" wx:if="{{currentWord.example}}">
+            <text class="card-example-text">{{currentWord.example}}</text>
+            <text class="card-example-trans" wx:if="{{currentWord.exampleTranslation}}">{{currentWord.exampleTranslation}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section" wx:if="{{flipped}}">
+    <view class="action-btn action-btn-forget" hover-class="btn-hover" bindtap="onNotKnow">
+      <text class="action-btn-text">不认识</text>
+    </view>
+    <view class="action-btn action-btn-know" hover-class="btn-hover" bindtap="onKnow">
+      <text class="action-btn-text">认识</text>
+    </view>
+  </view>
+
+</view>
+
+<!-- 学习完成弹窗 -->
+<view class="modal-overlay {{showCompleteModal ? 'modal-show' : ''}}">
+  <view class="modal-content slide-up">
+    <view class="modal-icon">🎉</view>
+    <text class="modal-title">本组学习完成！</text>
+    <text class="modal-desc">是否立即测试来巩固学习效果？</text>
+    <view class="modal-actions">
+      <button class="modal-btn modal-btn-primary" bindtap="goToTest">进入测试</button>
+      <button class="modal-btn modal-btn-secondary" bindtap="goBack">稍后再说</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,136 @@
+<navbar title="词小达" showBack="{{false}}"></navbar>
+
+<!-- 加载中（转圈圈） -->
+<view class="loading-state" wx:if="{{loading}}">
+  <view class="spinner"></view>
+  <text class="loading-text">加载中...</text>
+</view>
+
+<!-- 未选择单词书 -->
+<view class="page-container" wx:elif="{{!hasBook && !loading}}">
+  <view class="empty-state">
+    <view class="empty-icon-circle">
+      <view class="icon-book"></view>
+    </view>
+    <text class="empty-title">还没有选择单词书</text>
+    <text class="empty-desc">选择一本单词书开始你的学习之旅</text>
+    <button class="primary-btn" bindtap="goToBooks">去选择单词书</button>
+  </view>
+</view>
+
+<!-- 加载失败 -->
+<view class="page-container" wx:elif="{{error && !loading}}">
+  <view class="empty-state">
+    <view class="empty-icon-circle">
+      <view class="icon-warning"></view>
+    </view>
+    <text class="empty-title">加载失败</text>
+    <text class="empty-desc">网络开小差了，下拉刷新试试</text>
+    <button class="primary-btn" bindtap="loadPageData">重新加载</button>
+  </view>
+</view>
+
+<!-- 首页主内容 -->
+<view class="page-container" wx:else>
+  <!-- ===== 顶部用户区域 ===== -->
+  <view class="user-section">
+    <view class="user-info">
+      <view class="user-avatar-wrapper">
+        <image class="user-avatar" src="{{userInfo.avatarUrl || ''}}" mode="aspectFill" wx:if="{{userInfo.avatarUrl}}"></image>
+        <view class="user-avatar-placeholder" wx:else>
+          <text class="avatar-placeholder-text">{{avatarChar}}</text>
+        </view>
+      </view>
+      <view class="user-text">
+        <text class="user-nickname">{{userInfo.nickName || '学习者'}}</text>
+        <text class="user-badge">已学 {{statistics.totalLearned || 0}} 词 · 连续 {{statistics.streak || 0}} 天</text>
+      </view>
+    </view>
+    <view class="today-count">
+      <text class="today-count-num">{{todayLearned}}</text>
+      <text class="today-count-label">今日已学</text>
+    </view>
+  </view>
+
+  <!-- ===== 推荐轮播图 ===== -->
+  <swiper class="banner-swiper" indicator-dots="{{true}}" indicator-color="rgba(0,0,0,0.08)" indicator-active-color="var(--primary)" autoplay interval="4000" circular>
+    <swiper-item wx:for="{{banners}}" wx:key="index">
+      <view class="banner-slide" style="background: {{item.bg}};">
+        <view class="banner-left">
+          <view class="banner-tag">{{item.tag}}</view>
+          <text class="banner-title">{{item.title}}</text>
+          <text class="banner-desc">{{item.desc}}</text>
+        </view>
+        <view class="banner-card-preview">
+          <view class="mini-card">
+            <text class="mini-word">{{item.demo}}</text>
+          </view>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- ===== 学习任务卡片 ===== -->
+  <view class="task-section">
+    <view class="task-card" bindtap="goToStudy" data-mode="new">
+      <view class="task-card-left">
+        <view class="task-card-icon task-icon-new">
+          <view class="icon-new-words"></view>
+        </view>
+        <view class="task-card-info">
+          <text class="task-card-title">新词学习</text>
+          <text class="task-card-desc">今日 {{todayData.newCount || 0}} 个新词待学</text>
+        </view>
+      </view>
+      <view class="task-card-right">
+        <text class="task-card-count">{{todayData.newCount || 0}}</text>
+        <text class="task-card-unit">个</text>
+      </view>
+    </view>
+
+    <view class="task-card" bindtap="goToStudy" data-mode="review">
+      <view class="task-card-left">
+        <view class="task-card-icon task-icon-review">
+          <view class="icon-review"></view>
+        </view>
+        <view class="task-card-info">
+          <text class="task-card-title">复习巩固</text>
+          <text class="task-card-desc">今日 {{todayData.reviewCount || 0}} 个词待复习</text>
+        </view>
+      </view>
+      <view class="task-card-right">
+        <text class="task-card-count">{{todayData.reviewCount || 0}}</text>
+        <text class="task-card-unit">个</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 切换单词书 -->
+  <view class="switch-book-bar" bindtap="goToBooks">
+    <text class="switch-book-text">切换单词书</text>
+    <text class="switch-book-arrow">›</text>
+  </view>
+
+  <!-- ===== 学习日历 ===== -->
+  <view class="calendar-card">
+    <view class="calendar-header-row">
+      <text class="calendar-title">学习日历</text>
+      <view class="calendar-nav">
+        <text class="nav-btn" bindtap="onPrevMonth">‹</text>
+        <text class="nav-date">{{calendarYear}}年{{calendarMonth}}月</text>
+        <text class="nav-btn" bindtap="onNextMonth">›</text>
+      </view>
+    </view>
+    <view class="calendar-weekdays">
+      <text wx:for="{{weekdays}}" wx:key="index" class="weekday {{item === '日' || item === '六' ? 'weekend' : ''}}">{{item}}</text>
+    </view>
+    <view class="calendar-grid">
+      <view wx:for="{{calendarDays}}" wx:key="index" class="calendar-day" data-date="{{item.date}}">
+        <view class="day-number {{item.isToday ? 'today' : ''}} {{item.isStudied ? 'studied' : ''}}">
+          <text>{{item.day}}</text>
+        </view>
+        <view class="day-dot {{item.isStudied ? 'dot-studied' : ''}}" wx:if="{{item.day}}"></view>
+      </view>
+    </view>
+  </view>
+</view>
